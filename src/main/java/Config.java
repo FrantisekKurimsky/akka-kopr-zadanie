@@ -1,4 +1,4 @@
 public class Config {
-    public static final boolean printMain = true;
-    public static final boolean printPlatforms = false;
+    public static final boolean printMain = false;
+    public static final boolean printPlatforms = !printMain;
 }

@@ -145,11 +145,11 @@ public class MainBoard extends AbstractBehavior<MainBoard.Command> {
             number=copy.size();
         }
 //        System.out.println("Type\tDeparture\tarrival\tPlatform\tDelay");
-        System.out.format("=====================================================================================================================");
+        System.out.format("=============================================================================================================================");
         System.out.println();
-        System.out.format("|%5s    |%33s    |%33s    |%10s    |%10s    |", "Type", "Departure", "Arrival","Platform","Delay");
+        System.out.format("|%5s    |%33s    |%33s    |%15s     |%10s    |%10s    |", "Type", "Departure", "Arrival","Destination","Platform","Delay");
         System.out.println();
-        System.out.format("=====================================================================================================================");
+        System.out.format("=============================================================================================================================");
         System.out.println();
         for (int i=0; i<number; i++) {
             Train entry = copy.get(i);
@@ -167,11 +167,11 @@ public class MainBoard extends AbstractBehavior<MainBoard.Command> {
 //                System.out.println("|"+entry.getType()+entry.getNumber()+"\t"+ entry.getDeparture()+"\t"+  entry.getArrival()+"\t"+ entry.getPlatform()+"\t"+  entry.getDelay()+"|");
             }
 //            System.out.println();
-            System.out.format("|%5s    |%33s    |%33s    |%10s    |%10s    |", entry.getType()+entry.getNumber(), entry.getDeparture(), entry.getArrival(),entry.getPlatform(),entry.getDelay());
+            System.out.format("|%5s    |%33s    |%33s    |%15s     |%10s    |%10s    |", entry.getType()+entry.getNumber(), entry.getDeparture(), entry.getArrival(),entry.getDestination(),entry.getPlatform(),entry.getDelay());
             System.out.println();
 
         }
-        System.out.format("=====================================================================================================================");
+        System.out.format("=============================================================================================================================");
         System.out.println();
     }
     private ConcurrentMap<String,Train> copy(){

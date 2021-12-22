@@ -97,17 +97,17 @@ public class Platform extends AbstractBehavior<Platform.Command> {
     }
 
     private void print() {
-        System.out.format("====================================          " + this.getContext().classicActorContext().self().path().name() + "               ==========================================");
+        System.out.format("===========================================                 " + this.getContext().classicActorContext().self().path().name() + "                   ==================================================");
         System.out.println();
-        System.out.format("|%5s    |%33s    |%33s    |%10s    |%10s    |", "Type", "Departure", "Arrival", "Platform", "Delay");
+        System.out.format("|%5s    |%33s    |%33s    |%15s     |%10s    |%10s    |", "Type", "Departure", "Arrival", "Destination", "Platform", "Delay");
         System.out.println();
-        System.out.format("=====================================             AKTUALNY VLAK               =======================================");
+        System.out.format("====================================================          AKTUALNY VLAK         ======================================================");
         System.out.println();
 
         if (actualTrain == null) {
-            System.out.format("|%5s    |%33s    |%33s    |%10s    |%10s    |", "null", "null", "null", "null", "null");
+            System.out.format("|%5s    |%33s    |%33s    |%15s     |%10s    |%10s    |", "null", "null", "null", "null", "null", "null");
         } else {
-            System.out.format("|%5s    |%33s    |%33s    |%10s    |%10s    |", actualTrain.getType() + actualTrain.getNumber(), actualTrain.getDeparture(), actualTrain.getDeparture(), actualTrain.getPlatform(), actualTrain.getDelay());
+            System.out.format("|%5s    |%33s    |%33s    |%15s     |%10s    |%10s    |", actualTrain.getType() + actualTrain.getNumber(), actualTrain.getDeparture(), actualTrain.getDeparture(), actualTrain.getDestination(), actualTrain.getPlatform(), actualTrain.getDelay());
         }
         System.out.println();
         Date date = new Date();
@@ -115,7 +115,7 @@ public class Platform extends AbstractBehavior<Platform.Command> {
         copy.sort(Comparator.comparing(Train::getDeparture));
         if (copy.size() > 0) {
 
-            System.out.format("=====================================               DALSIE VLAKY              =======================================");
+            System.out.format("============================================               DALSIE VLAKY              ====================================================");
             System.out.println();
             int number = 5;
             if (copy.size() < 5) {
@@ -137,13 +137,13 @@ public class Platform extends AbstractBehavior<Platform.Command> {
 //                System.out.println("|"+entry.getType()+entry.getNumber()+"\t"+ entry.getDeparture()+"\t"+  entry.getArrival()+"\t"+ entry.getPlatform()+"\t"+  entry.getDelay()+"|");
                 }
 //            System.out.println();
-                System.out.format("|%5s    |%33s    |%33s    |%10s    |%10s    |", entry.getType() + entry.getNumber(), entry.getDeparture(), entry.getArrival(), entry.getPlatform(), entry.getDelay());
+                System.out.format("|%5s    |%33s    |%33s    |%15s     |%10s    |%10s    |", entry.getType() + entry.getNumber(), entry.getDeparture(), entry.getArrival(), entry.getDestination(), entry.getPlatform(), entry.getDelay());
                 System.out.println();
 
             }
         }
 
-        System.out.format("=====================================================================================================================");
+        System.out.format("==========================================================================================================================================");
         System.out.println();
     }
 
