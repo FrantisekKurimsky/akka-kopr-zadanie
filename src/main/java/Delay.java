@@ -46,7 +46,8 @@ public class Delay extends AbstractBehavior<Delay.Command> {
             date.setMinutes(train.getArrival().getMinutes()+10);
             train.setDelayedArrival(date);
 //            trains.remove(train.getType()+train.getNumber());
-            Runner.createAndGetActorSystem().tell(new MainBoard.DelayMessage(train));
+            getContext().classicActorContext().parent().tell(new MainBoard.DelayMessage(train), getContext().classicActorContext().self());
+//            Runner.createAndGetActorSystem().tell(new MainBoard.DelayMessage(train));
         }
 
         return Behaviors.same();

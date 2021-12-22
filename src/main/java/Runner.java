@@ -10,52 +10,50 @@ import java.util.concurrent.TimeUnit;
 
 public class Runner {
     public static ActorSystem<MainBoard.Command> system;
-    public static ActorSystem<Dispecer.Command> dispecer;
-    public static ActorSystem<Delay.Command> delay;
-    public static List<ActorSystem<Platform.Command>> platforms = new ArrayList<>();
+//    public static ActorSystem<Dispecer.Command> dispecer;
+//    public static ActorSystem<Delay.Command> delay;
+//    public static List<ActorSystem<Platform.Command>> platforms = new ArrayList<>();
 
-    public static ActorSystem<Delay.Command> getDelayActor() {
-        if (delay == null){
-            delay = ActorSystem.create(Delay.create(copy()), "delay");
-        }
-        return delay;
-    }
-    public static ActorSystem<MainBoard.Command> createAndGetActorSystem() {
-        if (system == null){
-            system = ActorSystem.create(MainBoard.create(copy()), "system");
-        }
-        return system;
-    }
-    public static ActorSystem<Dispecer.Command> getDispecer() {
-        if (dispecer == null){
-
-            dispecer = ActorSystem.create(Dispecer.create(copy()), "dispecer");
-        }
-        return dispecer;
-    }
-    public static List<ActorSystem<Platform.Command>> getPlatforms() {
-        if (platforms == null || platforms.size()==0){
-            ActorSystem<Platform.Command> platform1 = ActorSystem.create(Platform.create(), "platform1");
-            ActorSystem<Platform.Command> platform2 = ActorSystem.create(Platform.create(), "platform2");
-            ActorSystem<Platform.Command> platform3 = ActorSystem.create(Platform.create(), "platform3");
-            ActorSystem<Platform.Command> platform4 = ActorSystem.create(Platform.create(), "platform4");
-            ActorSystem<Platform.Command> platform5 = ActorSystem.create(Platform.create(), "platform5");
-            platforms.add(platform1);
-            platforms.add(platform2);
-            platforms.add(platform3);
-            platforms.add(platform4);
-            platforms.add(platform5);
-        }
-        return platforms;
-    }
+//    public static ActorSystem<Delay.Command> getDelayActor() {
+//        if (delay == null){
+//            delay = ActorSystem.create(Delay.create(copy()), "delay");
+//        }
+//        return delay;
+//    }
+//    public static ActorSystem<MainBoard.Command> createAndGetActorSystem() {
+//        if (system == null){
+//            system = ActorSystem.create(MainBoard.create(copy()), "system");
+//        }
+//        return system;
+//    }
+//    public static ActorSystem<Dispecer.Command> getDispecer() {
+//        if (dispecer == null){
+//
+//            dispecer = ActorSystem.create(Dispecer.create(copy()), "dispecer");
+//        }
+//        return dispecer;
+//    }
+//    public static List<ActorSystem<Platform.Command>> getPlatforms() {
+//        if (platforms == null || platforms.size()==0){
+//            ActorSystem<Platform.Command> platform1 = ActorSystem.create(Platform.create(), "platform1");
+//            ActorSystem<Platform.Command> platform2 = ActorSystem.create(Platform.create(), "platform2");
+//            ActorSystem<Platform.Command> platform3 = ActorSystem.create(Platform.create(), "platform3");
+//            ActorSystem<Platform.Command> platform4 = ActorSystem.create(Platform.create(), "platform4");
+//            ActorSystem<Platform.Command> platform5 = ActorSystem.create(Platform.create(), "platform5");
+//            platforms.add(platform1);
+//            platforms.add(platform2);
+//            platforms.add(platform3);
+//            platforms.add(platform4);
+//            platforms.add(platform5);
+//        }
+//        return platforms;
+//    }
 
     public static final Map<String, Train> generatedTrains = Train.generateTrains();
     public static void main(String[] args) {
         System.out.println("APP STARTED");
-        ActorSystem<MainBoard.Command> system = createAndGetActorSystem();
-        ActorSystem<Dispecer.Command> dispecer = getDispecer();
-        ActorSystem<Delay.Command> delay = getDelayActor();
-        List<ActorSystem<Platform.Command>> platforms = getPlatforms();
+        ActorSystem<MainBoard.Command> system = ActorSystem.create(MainBoard.create(copy()), "system");
+
 //        int counter = 0;
 //        Train[] platformTrains = new Train[5];
 //        while (true){

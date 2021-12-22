@@ -6,15 +6,31 @@ import akka.actor.typed.javadsl.*;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class MainBoard extends AbstractBehavior<MainBoard.Command> {
     ConcurrentMap<String, Train> trains;
+    ActorRef<Dispecer.Command> dispecer;
+    ActorRef<Delay.Command> delay;
+    List<ActorRef<Platform.Command>> platforms = new ArrayList<>();
 
 
     private MainBoard(ActorContext<Command> context, ConcurrentMap<String, Train> trains) {
         super(context);
         this.trains = trains;
+        dispecer = context.spawn(Dispecer.create(copy()),"dispecer");
+        delay = context.spawn(Delay.create(copy()),"delay");
+        ActorRef<Platform.Command> platform1 = context.spawn(Platform.create(), "platform1");
+        ActorRef<Platform.Command> platform2 = context.spawn(Platform.create(), "platform2");
+        ActorRef<Platform.Command> platform3 = context.spawn(Platform.create(), "platform3");
+        ActorRef<Platform.Command> platform4 = context.spawn(Platform.create(), "platform4");
+        ActorRef<Platform.Command> platform5 = context.spawn(Platform.create(), "platform5");
+        platforms.add(platform1);
+        platforms.add(platform2);
+        platforms.add(platform3);
+        platforms.add(platform4);
+        platforms.add(platform5);
     }
     public static Behavior<Command> create(ConcurrentMap<String, Train> receivedTrains) {
         return Behaviors.setup(context -> {
@@ -55,7 +71,7 @@ public class MainBoard extends AbstractBehavior<MainBoard.Command> {
         Train train = platformMessage.train;
         Train mapTrain = trains.get(train.getType()+train.getNumber());
         mapTrain.setPlatform(train.getPlatform());
-        Runner.getPlatforms().get(platformMessage.train.getPlatform()-1).tell(new Platform.RecieveTrain(mapTrain));
+        platforms.get(platformMessage.train.getPlatform()-1).tell(new Platform.RecieveTrain(mapTrain));
 //        System.out.println("Platform assigned to train: "+train.getType()+train.getNumber()+" number of platform: "+train.getPlatform());
 
         return Behaviors.same();
@@ -76,7 +92,7 @@ public class MainBoard extends AbstractBehavior<MainBoard.Command> {
             mapTrain.setDelayedArrival(train.getDelayedArrival());
             mapTrain.setDelay(train.getDelayedArrival().getTime()-train.getArrival().getTime());
             if (mapTrain.getPlatform()>0){
-                Runner.getPlatforms().get(mapTrain.getPlatform()-1).tell(new Platform.DelayMessage(mapTrain));
+                platforms.get(mapTrain.getPlatform()-1).tell(new Platform.DelayMessage(mapTrain));
             }
         }
 
@@ -152,6 +168,13 @@ public class MainBoard extends AbstractBehavior<MainBoard.Command> {
         }
         System.out.format("=====================================================================================================================");
         System.out.println();
+    }
+    private ConcurrentMap<String,Train> copy(){
+        ConcurrentMap<String, Train> copy = new ConcurrentHashMap<>();
+        for (Map.Entry<String, Train> entry : trains.entrySet()) {
+            copy.put(entry.getKey(), entry.getValue());
+        }
+        return copy;
     }
 
 }

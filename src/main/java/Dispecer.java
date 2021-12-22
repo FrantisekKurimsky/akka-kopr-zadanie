@@ -1,3 +1,4 @@
+import akka.actor.typed.ActorRef;
 import akka.actor.typed.ActorSystem;
 import akka.actor.typed.Behavior;
 import akka.actor.typed.javadsl.AbstractBehavior;
@@ -48,7 +49,10 @@ public class Dispecer extends AbstractBehavior<Dispecer.Command> {
             int plat = (int)(Math.random()*5)+1;
             train.setPlatform(plat);
             trains.remove(train.getType()+train.getNumber());
-            Runner.createAndGetActorSystem().tell(new MainBoard.PlatformMessage(train));
+
+            getContext().classicActorContext().parent().tell(new MainBoard.PlatformMessage(train), getContext().classicActorContext().self());
+//             getContext().classicActorContext().parent().tell(new MainBoard.PlatformMessage(train));
+//            this.getContext().getSelf().tell(new MainBoard.PlatformMessage(train));
         }
 
         return Behaviors.same();
