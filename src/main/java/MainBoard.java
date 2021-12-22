@@ -33,15 +33,20 @@ public class MainBoard extends AbstractBehavior<MainBoard.Command> {
         platforms.add(platform5);
     }
     public static Behavior<Command> create(ConcurrentMap<String, Train> receivedTrains) {
-        return Behaviors.setup(context -> {
-           return new MainBoard(context, receivedTrains);
+        if (!Config.printMain){
+            return Behaviors.setup(context -> {
+                return new MainBoard(context, receivedTrains);
+            });
+        }else {
+            return Behaviors.setup(context -> {
+            return Behaviors.withTimers(timers -> {
+                timers.startTimerWithFixedDelay(new Trigger(), Duration.ofSeconds(2));
+                return new MainBoard(context, receivedTrains);
+            });
         });
-//        return Behaviors.setup(context -> {
-//            return Behaviors.withTimers(timers -> {
-//                timers.startTimerWithFixedDelay(new Trigger(), Duration.ofSeconds(2));
-//                return new MainBoard(context, receivedTrains);
-//            });
-//        });
+        }
+
+
     }
 
     @Override
